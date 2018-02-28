@@ -37,7 +37,6 @@ class Packer:
             box.is_packed = False
         self.packed_boxes = []
         self.used_coords = []
-        self.pallet.weight = 0
         self.packed_vol = 0
 
     @staticmethod
@@ -80,8 +79,6 @@ class Packer:
         for idx, box in enumerate(self.boxes):
             if box.is_packed:
                 continue
-            if box.weight + self.pallet.weight > self.pallet.max_weight:
-                continue
             if box.dims in checked:
                 continue
             else:
@@ -123,7 +120,6 @@ class Packer:
         box_to_pack.pos = coords
         box_to_pack.orientation = orientation
         self.packed_vol += box_to_pack.vol
-        self.pallet.weight += self.boxes[box].weight
         self.packed_boxes.append(box_to_pack)
         self.num_packed = len(self.packed_boxes)
 

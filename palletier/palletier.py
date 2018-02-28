@@ -16,13 +16,35 @@ from .packedpallet import PackedPallet
 
 Dims = collections.namedtuple('Dims', ['dim1', 'dim2', 'dim3'])
 
+
 class Solver:
     """The volume optimization solver"""
-    def __init__(self):
-        self.pallets = []
-        self.boxes = []
-        self.total_num_boxes = 0
-        self.total_boxes_vol = 0
+    def __init__(self, pallets, boxes):
+        """Initializes the solver with the pallets available and the boxes
+        to be packed.
+
+        Args:
+            pallets ([Pallet]): The list of pallets available to the solver
+            boxes ([Box]): The boxes to be packed
+
+        Raises:
+            TypeError: If an element in pallets is not a Pallet
+            TypeError: If an element in boxes is not a Box
+        """
+
+        if all(isinstance(pallet, Pallet) for pallet in pallets):
+            self.pallets = pallets
+        else:
+            raise TypeError('All elements of the pallets list '
+                            'must be of type Pallet')
+
+        if all(isinstance(pallet, Pallet) for pallet in pallets):
+            self.boxes = boxes
+        else:
+            raise TypeError('All elements of the boxes list '
+                            'must be of type Box')
+        self.total_num_boxes = len(self.boxes)
+        self.total_boxes_vol = sum(box.vol for box in self.boxes)
         self.packed_pallets = []
 
     def pack(self):
@@ -31,12 +53,12 @@ class Solver:
             single_solutions = []  # A solution for each pallet type
             for pallet in self.pallets:
                 packer = Packer(remaining_boxes, pallet)
-                pallet_ori, packed, unpacked, vol_util = packer.iterations()
-                single_solutions.append((pallet_ori, packed, unpacked, vol_util))
+                pallet_ori, packed, unpacked, util = packer.iterations()
+                single_solutions.append((pallet_ori, packed, unpacked, util))
                 pallet.weight = 0  # Reset weight for next iteration
             # Get the best solution by utilization percentage
-            best_pallet, best_packed, best_unpacked, vol_util = max(single_solutions,
-                                                                key=lambda x: x[3])
+            solution = max(single_solutions, key=lambda x: x[3])
+            best_pallet, best_packed, best_unpacked, vol_util = solution
             # Make this a test
             # The boxes we sent to pack do not fit into any pallets
             if len(best_unpacked) == len(remaining_boxes):
@@ -66,18 +88,3 @@ class Solver:
                                                             (*box.orientation)),
                       end=' ')
                 print('located at ({0}, {1}, {2})'.format((*box.pos)))
-
-def main():
-    test_case = input('Enter test case: ')
-    if not test_case:
-        test_case = '6'
-    print('Solving test case {}'.format(test_case))
-    solver = Solver()
-    solver.initialize_from_file(test_case)
-    solver.pack()
-    solver.print_solution()
-
-
-
-if __name__ == '__main__':
-    main()

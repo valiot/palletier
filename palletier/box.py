@@ -19,11 +19,12 @@ class Box:
         if traits is not None:
             if (isinstance(traits, dict) and
                     all(isinstance(key, str) for key in traits) and
-                    all(isinstance(value, Number) for value in traits.values())
-                    ):
+                    all(isinstance(value, Number) for value in traits.values())):
                 self.traits = traits
             else:
                 raise TypeError('Limits should be a dict of str:int pairs')
+        else:
+            self.traits = {}
         if name is not None:
             self.name = name
         else:
@@ -44,7 +45,7 @@ class Box:
         if self.weight != 0:
             repr_str += f', weight={self.weight}'
         if self.name != 'NoName':
-            repr_str += f'name={name}'
+            repr_str += f'name={self.name}'
         if self.pos != Coords(0, 0, 0):
             repr_str += f', pos={self.pos}'
         if self.orientation != Dims(0, 0, 0):
@@ -58,3 +59,11 @@ class Box:
             output += f', weight={self.weight}'
         output += ')'
         return output
+
+    def __getattr__(self, name):
+        if name.startswith('__'):
+            raise AttributeError
+        elif name in self.traits:
+            return self.traits[name]
+        else:
+            raise AttributeError
