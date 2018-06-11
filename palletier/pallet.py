@@ -38,7 +38,7 @@ class Pallet:
         return repr_str
 
     def __str__(self):
-        output = f'Pallet([{self.dims.x}, {self.dims.y}, {self.dims.z}]'
+        output = f'Pallet([{self.dims.dim1}, {self.dims.dim2}, {self.dims.dim3}]'
         if self.max_weight != 0:
             output += f', max_weight={self.max_weight}'
         output += ')'
