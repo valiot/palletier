@@ -11,6 +11,7 @@ class Box:
 
     def __init__(self, dims, idx=None,
                  pos=Coords(0, 0, 0), orientation=Dims(0, 0, 0),
+                 weight=0,
                  name=None, *args, traits=None):
         if idx is not None:
             self.idx = idx
@@ -33,6 +34,7 @@ class Box:
         self.dims = Dims(*dims)
         self.pos = pos
         self.orientation = orientation
+        self.weight = weight
         self.vol = 1
         for dim in self.dims:
             self.vol *= dim
