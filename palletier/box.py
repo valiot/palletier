@@ -42,8 +42,9 @@ class Box:
 
     def __repr__(self):
         repr_str = f'Box(idx={self.idx}, dims={self.dims}'
-        if self.weight != 0:
-            repr_str += f', weight={self.weight}'
+        if self.traits is not None:
+            for key in self.traits:
+                repr_str += f', {key}={self.traits[key]}'
         if self.name != 'NoName':
             repr_str += f'name={self.name}'
         if self.pos != Coords(0, 0, 0):
@@ -55,8 +56,9 @@ class Box:
 
     def __str__(self):
         output = f'Box([{self.dims.dim1}, {self.dims.dim2}, {self.dims.dim3}]'
-        if self.weight != 0:
-            output += f', weight={self.weight}'
+        if self.traits is not None:
+            for key in self.traits:
+                output += f', {key}={self.traits[key]}'
         output += ')'
         return output
 
