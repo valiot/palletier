@@ -2,7 +2,7 @@ from itertools import permutations
 import collections
 import copy
 
-from .topology import Topology
+from palletier.topology import Topology
 
 Layer = collections.namedtuple('Layer', ['width', 'value'])
 Coords = collections.namedtuple('Coords', ['x', 'y', 'z'])

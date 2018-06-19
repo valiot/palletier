@@ -6,8 +6,8 @@ __author__ = """Alan Velasco"""
 __email__ = 'alanvelasco.a@gmail.com'
 __version__ = '0.1.0'
 
-from .box import Box
-from .pallet import Pallet
-from .packedpallet import PackedPallet
-from .palletier import Solver
-from .packer import Packer
+from palletier.box import Box
+from palletier.pallet import Pallet
+from palletier.packedpallet import PackedPallet
+from palletier.palletier import Solver
+from palletier.packer import Packer

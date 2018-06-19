@@ -9,10 +9,10 @@ import collections
 from itertools import permutations
 from copy import copy, deepcopy
 
-from .box import Box
-from .packer import Packer
-from .pallet import Pallet
-from .packedpallet import PackedPallet
+from palletier.box import Box
+from palletier.packer import Packer
+from palletier.pallet import Pallet
+from palletier.packedpallet import PackedPallet
 
 Dims = collections.namedtuple('Dims', ['dim1', 'dim2', 'dim3'])
 
